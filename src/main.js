@@ -11,18 +11,20 @@ import layout from './components/layout.vue';
 import login from './components/account/login.vue';
 
 //商品相关的组件
-import goodslist from './components/goods/goodslist.vue'
+import goodslist from './components/goods/goodslist.vue';
+import goodsadd from './components/goods/goodsadd.vue';
 //实例化对象并且定义路由规则
 var router = new VueRouter({
   routes:[
     //默认跳转的路由规则
     {name:'default',path:'/',redirect:'/admin'},
     //登录
-    {name:'logiin',path:'/login',component:login},
+    {name:'login',path:'/login',component:login,meta:{nologin:true}},
     //布局
     {name:'layout',path:'/admin',component:layout,
     children:[
-      {name:'goodslist',path:'goodslist',component:goodslist}
+      {name:'goodslist',path:'goodslist',component:goodslist},
+      {name:'goodadd',path:'goodsadd',component:goodsadd}
     ]
   }
   ]
@@ -41,8 +43,26 @@ import '../staict/css/stie.less';
 import axios from 'axios';
 //设定axios的默认请求域名，将来在真正调用get,post方法的时候传入的url中就不需要带域名的
 axios.defaults.baseURL='http://127.0.0.1:8899';
+//配置axios在请求数据服务接口的时候，允许带cookie（凭证）
+axios.defaults.withCredentials = true;
 //5.0.2 将axios对象绑定到Vue的原型属性 $ajax上，将来在任何组件中均可以通过this.$ajax中的get(),post() 就可以发出ajax请求了
 Vue.prototype.$ajax = axios;
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.nologin) {
+    next()
+    return;
+  }
+  //进入任何组件都会触发这个请求，进行登录判断
+  axios.get('/admin/account/islogin').then(res=>{
+    if (res.data.code == 'nologin') {
+      //表示没有登录，则跳转到登录页面
+      router.push({name:'login'});
+    }else{
+      next();
+    }
+  })
+})
 
 //绑定到vue中
 Vue.use(elementUI);

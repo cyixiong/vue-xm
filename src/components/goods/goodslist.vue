@@ -17,9 +17,17 @@
         <div class="avread bt-line">
           <el-row>
             <el-col :span="6">
-              <el-button size="small">全选</el-button>
-              <el-button size="small">新增</el-button>
-              <el-button size="small">删除</el-button>
+              <el-button class="small">
+                <i class=" el-icon-check">全选</i>
+              </el-button>
+              <el-button class="small">
+                <router-link to="/admin/goodsadd">
+                  <i class="el-icon-plus">新增</i>
+                </router-link>
+              </el-button>
+              <el-button class="small">
+                <i class="el-icon-close">删除</i>
+              </el-button>
             </el-col>
             <el-col :offset="14" :span="4">
               <el-input  placeholder="请输入搜素内容"  icon="search" v-model="searchValue"  :on-icon-click="getlist" @keydown.13.native="getlist">
@@ -36,7 +44,17 @@
         <el-table ref="multipleTable" :data="list" border tooltip-effect="dark" style="width: 100%">
           <el-table-column type="selection" width="55">
           </el-table-column>
-          <el-table-column prop="title" label="标题">
+          
+          <el-table-column label="标题">
+            <template scope="scope">
+              <el-tooltip class="item" effect="dark" placement="right-start">
+                <div slot="content">
+                  <img height="200" width="200" :src="scope.row.imgurl" alt="">
+                </div>
+                <a href="#">{{scope.row.title}}</a>
+              </el-tooltip>
+          
+            </template>
           </el-table-column>
           <el-table-column prop="categoryname" label="所属类别" width="100">
           </el-table-column>
@@ -83,11 +101,6 @@
       }
     },
     methods: {
-      test(event){
-        if (event.keyCode==13) {
-          console.log("这是测试");
-        }
-      },
       //获取当前的页索引
       pageIndexChange(currentPage){
         // console.log(currentPage
