@@ -31,7 +31,6 @@
             this.$message.error(res.data.message);
             return;
           }
-            console.log(1111);
           this.$router.push({name:'goodslist'});
         })
       }

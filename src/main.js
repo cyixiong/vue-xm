@@ -13,6 +13,8 @@ import login from './components/account/login.vue';
 //商品相关的组件
 import goodslist from './components/goods/goodslist.vue';
 import goodsadd from './components/goods/goodsadd.vue';
+import goodsedit from './components/goods/goodsedit.vue';
+import catelist from './components/goods/goodscate.vue';
 //实例化对象并且定义路由规则
 var router = new VueRouter({
   routes:[
@@ -23,8 +25,10 @@ var router = new VueRouter({
     //布局
     {name:'layout',path:'/admin',component:layout,
     children:[
-      {name:'goodslist',path:'goodslist',component:goodslist},
-      {name:'goodadd',path:'goodsadd',component:goodsadd}
+      {name:'goodslist',path:'goodslist',component:goodslist,meta:{mno:'1-1'}},
+      {name:'goodadd',path:'goodsadd',component:goodsadd,meta:{mno:'1-1'}},
+      { name: 'goodsedit', path: 'goodsedit/:goodsid', component: goodsedit,meta:{ mno: '1-1' }},
+      {name:'goodscate',path:'goodscate',component:catelist,meta:{mno:'1-2'}}
     ]
   }
   ]

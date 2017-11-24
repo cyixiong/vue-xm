@@ -5,7 +5,7 @@
         <!-- 左边菜单 -->
         <img src="../../staict/img/logo.png" alt="" class="logo">
         <div class="layout menu">
-          <el-menu default-active="5-1" class="el-menu-vertical-demo">
+          <el-menu :default-active="currentMID" class="el-menu-vertical-demo">
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-message"></i>学员问题汇总</template>
@@ -49,7 +49,9 @@
                 <router-link to="/admin/goodslist">
                   <el-menu-item index="5-1">内容管理</el-menu-item>
                 </router-link>
-                <el-menu-item index="5-2">分类管理</el-menu-item>
+               <router-link to="/admin/goodscate">
+                <el-menu-item index="5-2">分类管理</el-menu-item> 
+              </router-link>
                 <el-menu-item index="5-3">评论管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -104,7 +106,11 @@
   export default {
     data() {
       return {
+        currentMID:'5-1'
       }
+    },
+    mounted(){
+      this.currentMID = localStorage.getItem('currentMID');
     },
     methods: {
     }
